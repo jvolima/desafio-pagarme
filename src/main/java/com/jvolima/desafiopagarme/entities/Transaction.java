@@ -30,11 +30,14 @@ public class Transaction {
     @Column(nullable = false)
     private String cardholderName;
 
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
     private Instant cardExpirationDate;
 
     @Column(nullable = false)
     private Integer cvv;
+
+    @OneToOne(mappedBy = "transaction")
+    private Payable payable;
 
     public Transaction() {
     }
