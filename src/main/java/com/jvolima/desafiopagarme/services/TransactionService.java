@@ -5,6 +5,8 @@ import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.repositories.TransactionRepository;
 import com.jvolima.desafiopagarme.services.exceptions.UnprocessableEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,13 @@ public class TransactionService {
 
     @Autowired
     private PayableService payableService;
+
+    @Transactional(readOnly = true)
+    public Page<TransactionDTO> listTransactions(Pageable pageable) {
+        Page<Transaction> transactionsPage = transactionRepository.findAll(pageable);
+
+        return transactionsPage.map(TransactionDTO::new);
+    }
 
     @Transactional
     public void processTransaction(TransactionDTO transactionDTO) {
