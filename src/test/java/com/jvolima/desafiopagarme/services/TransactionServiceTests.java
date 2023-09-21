@@ -1,6 +1,5 @@
 package com.jvolima.desafiopagarme.services;
 
-import com.jvolima.desafiopagarme.dto.PayableDTO;
 import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.repositories.TransactionRepository;
 import com.jvolima.desafiopagarme.utils.Factory;
@@ -32,16 +31,18 @@ public class TransactionServiceTests {
     public void setUp() {
         transaction = Factory.createTransaction();
 
-        Mockito.when(transactionRepository.save(ArgumentMatchers.any(Transaction.class))).thenReturn(Factory.createTransaction());
+        Mockito.when(transactionRepository.save(ArgumentMatchers.any(Transaction.class))).thenReturn(transaction);
+
+        Mockito.doNothing().when(payableService).processPayable(transaction);
     }
 
     @Test
     public void processTransactionShouldReturnNothingWhenDataIsValid() {
         Assertions.assertDoesNotThrow(() -> transactionService.processTransaction(Factory.createTransactionDTO()));
 
-        transaction.setId(null);
+        Mockito.verify(payableService).processPayable(transaction);
 
+        transaction.setId(null);
         Mockito.verify(transactionRepository).save(transaction);
-        Mockito.verify(payableService).processPayable(ArgumentMatchers.any(PayableDTO.class));
     }
 }
