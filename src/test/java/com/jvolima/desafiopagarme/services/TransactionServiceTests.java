@@ -13,10 +13,16 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.AbstractSet;
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 public class TransactionServiceTests {
@@ -35,11 +41,25 @@ public class TransactionServiceTests {
     @BeforeEach
     public void setUp() {
         transaction = Factory.createTransaction();
+        PageImpl<Transaction> transactionsPage = new PageImpl<>(List.of(transaction));
+
+        Mockito.when(transactionRepository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(transactionsPage);
 
         Mockito.when(transactionRepository.save(ArgumentMatchers.any(Transaction.class))).thenReturn(transaction);
 
         Mockito.doNothing().when(payableService).processPayable(transaction);
     }
+
+    @Test
+    public void listTransactionsShouldReturnATransactionsPage() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<TransactionDTO> transactionsDTOPage = transactionService.listTransactions(pageable);
+
+        Assertions.assertEquals(1, transactionsDTOPage.getSize());
+        Mockito.verify(transactionRepository).findAll(pageable);
+    }
+
 
     @Test
     public void processTransactionShouldReturnNothingWhenDataIsValid() {
