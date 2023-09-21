@@ -63,4 +63,12 @@ public class TransactionServiceTests {
         Mockito.verifyNoInteractions(transactionRepository);
         Mockito.verifyNoInteractions(payableService);
     }
+
+    @Test
+    public void getTheLast4DigitsOfTheCardNumberShouldReturnTheLast4Digits() {
+        String cardNumber = "8421098574156972";
+        Integer last4Digits = transactionService.getTheLast4DigitsOfTheCardNumber(cardNumber);
+
+        Assertions.assertEquals(6972, last4Digits);
+    }
 }

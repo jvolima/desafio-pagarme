@@ -20,6 +20,7 @@ public class Factory {
         transaction.setCardholderName("Comprador teste");
         transaction.setCardExpirationDate(Instant.now().plus(365 * 3, ChronoUnit.DAYS));
         transaction.setCvv(321);
+        transaction.setCreatedAt(Instant.now());
 
         return transaction;
     }
@@ -27,6 +28,7 @@ public class Factory {
     public static TransactionDTO createTransactionDTO() {
         TransactionDTO transactionDTO = new TransactionDTO(createTransaction());
         transactionDTO.setId(null);
+        transactionDTO.setCreatedAt(null);
         transactionDTO.setCardNumber("1234123412341234");
 
         return transactionDTO;
