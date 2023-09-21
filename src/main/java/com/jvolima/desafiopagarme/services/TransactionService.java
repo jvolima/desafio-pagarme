@@ -30,15 +30,16 @@ public class TransactionService {
         transaction.setValue(transactionDTO.getValue());
         transaction.setDescription(transactionDTO.getDescription());
         transaction.setPaymentMethod(transactionDTO.getPaymentMethod());
-        transaction.setCardNumber(
-                Integer.valueOf(transactionDTO.getCardNumber().substring(transactionDTO.getCardNumber().length() - 4))
-        );
+        transaction.setCardNumber(getTheLast4DigitsOfTheCardNumber(transactionDTO.getCardNumber()));
         transaction.setCardholderName(transactionDTO.getCardholderName());
         transaction.setCardExpirationDate(transactionDTO.getCardExpirationDate());
         transaction.setCvv(transactionDTO.getCvv());
-        transaction.setCreatedAt(transactionDTO.getCreatedAt());
 
         transaction = transactionRepository.save(transaction);
         payableService.processPayable(transaction);
+    }
+
+    public Integer getTheLast4DigitsOfTheCardNumber(String cardNumber) {
+        return Integer.valueOf(cardNumber.substring(cardNumber.length() - 4));
     }
 }
