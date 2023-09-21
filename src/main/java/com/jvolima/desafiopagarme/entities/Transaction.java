@@ -2,6 +2,7 @@ package com.jvolima.desafiopagarme.entities;
 
 import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -36,13 +37,16 @@ public class Transaction {
     @Column(nullable = false)
     private Integer cvv;
 
+    @CreationTimestamp
+    private Instant createdAt;
+
     @OneToOne(mappedBy = "transaction")
     private Payable payable;
 
     public Transaction() {
     }
 
-    public Transaction(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, Integer cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv) {
+    public Transaction(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, Integer cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv, Instant createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -51,6 +55,7 @@ public class Transaction {
         this.cardholderName = cardholderName;
         this.cardExpirationDate = cardExpirationDate;
         this.cvv = cvv;
+        this.createdAt = createdAt;
     }
 
     public UUID getId() {
@@ -115,6 +120,22 @@ public class Transaction {
 
     public void setCvv(Integer cvv) {
         this.cvv = cvv;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Payable getPayable() {
+        return payable;
+    }
+
+    public void setPayable(Payable payable) {
+        this.payable = payable;
     }
 
     @Override

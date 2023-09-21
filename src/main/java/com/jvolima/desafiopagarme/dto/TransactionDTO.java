@@ -16,11 +16,12 @@ public class TransactionDTO {
     private String cardholderName;
     private Instant cardExpirationDate;
     private Integer cvv;
+    private Instant createdAt;
 
     public TransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, String cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv) {
+    public TransactionDTO(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, String cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv, Instant createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -29,6 +30,7 @@ public class TransactionDTO {
         this.cardholderName = cardholderName;
         this.cardExpirationDate = cardExpirationDate;
         this.cvv = cvv;
+        this.createdAt = createdAt;
     }
 
     public TransactionDTO(Transaction entity) {
@@ -40,6 +42,7 @@ public class TransactionDTO {
         cardholderName = entity.getCardholderName();
         cardExpirationDate = entity.getCardExpirationDate();
         cvv = entity.getCvv();
+        createdAt = entity.getCreatedAt();
     }
 
     public UUID getId() {
@@ -104,5 +107,13 @@ public class TransactionDTO {
 
     public void setCvv(Integer cvv) {
         this.cvv = cvv;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }
