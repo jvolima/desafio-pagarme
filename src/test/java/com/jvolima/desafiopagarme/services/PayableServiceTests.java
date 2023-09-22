@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @ExtendWith(SpringExtension.class)
 public class PayableServiceTests {
@@ -90,5 +91,15 @@ public class PayableServiceTests {
         Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt(), paymentMethod);
 
         Assertions.assertEquals(transaction.getCreatedAt(), paymentDate);
+    }
+
+    @Test
+    public void determinePaymentDateShouldReturnDPlusThirtyWhenPaymentMethodIsCreditCard() {
+        Transaction transaction = Factory.createTransaction();
+        TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.credit_card;
+
+        Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt(), paymentMethod);
+
+        Assertions.assertEquals(transaction.getCreatedAt().plus(30, ChronoUnit.DAYS), paymentDate);
     }
 }
