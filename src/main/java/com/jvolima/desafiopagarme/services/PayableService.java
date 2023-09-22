@@ -1,5 +1,6 @@
 package com.jvolima.desafiopagarme.services;
 
+import com.jvolima.desafiopagarme.dto.BalanceDTO;
 import com.jvolima.desafiopagarme.entities.Payable;
 import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.entities.enums.PayableStatus;
@@ -11,12 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 public class PayableService {
 
     @Autowired
     private PayableRepository payableRepository;
+
+    @Transactional(readOnly = true)
+    public BalanceDTO getBalance() {
+        BalanceDTO balanceDTO = new BalanceDTO();
+
+        List<Payable> paidPayableList = payableRepository.findByStatus(PayableStatus.paid);
+        balanceDTO.setAvailable(
+                paidPayableList.stream().mapToDouble(Payable::getDiscountedValue).sum()
+        );
+        List<Payable> waitingFundsPayableList = payableRepository.findByStatus(PayableStatus.waiting_funds);
+        balanceDTO.setWaitingFunds(
+                waitingFundsPayableList.stream().mapToDouble(Payable::getDiscountedValue).sum()
+        );
+
+        return balanceDTO;
+    }
 
     @Transactional
     public void processPayable(Transaction transaction) {
