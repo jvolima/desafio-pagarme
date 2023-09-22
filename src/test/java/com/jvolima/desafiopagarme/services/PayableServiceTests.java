@@ -1,6 +1,7 @@
 package com.jvolima.desafiopagarme.services;
 
 import com.jvolima.desafiopagarme.entities.Payable;
+import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.entities.enums.PayableStatus;
 import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import com.jvolima.desafiopagarme.repositories.PayableRepository;
@@ -14,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.Instant;
 
 @ExtendWith(SpringExtension.class)
 public class PayableServiceTests {
@@ -77,5 +80,15 @@ public class PayableServiceTests {
         PayableStatus payableStatus = payableService.determinePayableStatus(paymentMethod);
 
         Assertions.assertEquals(PayableStatus.waiting_funds, payableStatus);
+    }
+
+    @Test
+    public void determinePaymentDateShouldReturnDPlusZeroWhenPaymentMethodIsDebitCard() {
+        Transaction transaction = Factory.createTransaction();
+        TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.debit_card;
+
+        Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt(), paymentMethod);
+
+        Assertions.assertEquals(transaction.getCreatedAt(), paymentDate);
     }
 }
