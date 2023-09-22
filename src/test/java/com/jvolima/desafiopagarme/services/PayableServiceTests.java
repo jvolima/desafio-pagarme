@@ -1,5 +1,6 @@
 package com.jvolima.desafiopagarme.services;
 
+import com.jvolima.desafiopagarme.dto.BalanceDTO;
 import com.jvolima.desafiopagarme.entities.Payable;
 import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.entities.enums.PayableStatus;
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 public class PayableServiceTests {
@@ -34,7 +36,32 @@ public class PayableServiceTests {
     public void setUp() {
         payable = Factory.createPayable();
 
+        Payable payablePaid = Factory.createPayable();
+        payablePaid.setDiscountedValue(400.0);
+        payablePaid.setStatus(PayableStatus.paid);
+
+        Payable payableWaitingFunds1 = Factory.createPayable();
+        payableWaitingFunds1.setDiscountedValue(500.0);
+        payableWaitingFunds1.setStatus(PayableStatus.waiting_funds);
+
+        Payable payableWaitingFunds2 = Factory.createPayable();
+        payableWaitingFunds2.setDiscountedValue(100.0);
+        payableWaitingFunds2.setStatus(PayableStatus.waiting_funds);
+
+        Mockito.when(payableRepository.findByStatus(PayableStatus.paid)).thenReturn(List.of(payablePaid));
+        Mockito.when(payableRepository.findByStatus(PayableStatus.waiting_funds)).thenReturn(List.of(payableWaitingFunds1, payableWaitingFunds2));
+
         Mockito.when(payableRepository.save(ArgumentMatchers.any(Payable.class))).thenReturn(payable);
+    }
+
+    @Test
+    public void getBalanceShouldReturnBalanceDTO() {
+        BalanceDTO balanceDTO = payableService.getBalance();
+
+        Assertions.assertEquals(400, balanceDTO.getAvailable());
+        Assertions.assertEquals(600, balanceDTO.getWaitingFunds());
+        Mockito.verify(payableRepository).findByStatus(PayableStatus.paid);
+        Mockito.verify(payableRepository).findByStatus(PayableStatus.waiting_funds);
     }
 
     @Test
