@@ -1,6 +1,7 @@
 package com.jvolima.desafiopagarme.services;
 
 import com.jvolima.desafiopagarme.entities.Payable;
+import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import com.jvolima.desafiopagarme.repositories.PayableRepository;
 import com.jvolima.desafiopagarme.utils.Factory;
 import org.junit.jupiter.api.Assertions;
@@ -37,5 +38,15 @@ public class PayableServiceTests {
 
         payable.setId(null);
         Mockito.verify(payableRepository).save(payable);
+    }
+
+    @Test
+    public void calculateDiscountedValueShouldReturnValueWith3PercentFeeWhenPaymentMethodIsDebitCard() {
+        TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.debit_card;
+        double value = 1000.0;
+
+        double discountedValue = payableService.calculateDiscountedValue(value, paymentMethod);
+
+        Assertions.assertEquals(970.0, discountedValue);
     }
 }

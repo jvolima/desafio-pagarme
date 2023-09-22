@@ -48,7 +48,7 @@ public class TransactionService {
         payableService.processPayable(transaction);
     }
 
-    public Integer getTheLast4DigitsOfTheCardNumber(String cardNumber) {
+    protected Integer getTheLast4DigitsOfTheCardNumber(String cardNumber) {
         return Integer.valueOf(cardNumber.substring(cardNumber.length() - 4));
     }
 }

@@ -30,17 +30,17 @@ public class PayableService {
         payableRepository.save(payable);
     }
 
-    public double calculateDiscountedValue(Double value, TransactionPaymentMethod paymentMethod) {
+    protected double calculateDiscountedValue(Double value, TransactionPaymentMethod paymentMethod) {
         return paymentMethod == TransactionPaymentMethod.debit_card
                 ? (value * (1.0 - 0.03)) : (value * (1.0 - 0.05));
     }
 
-    public PayableStatus determinePayableStatus(TransactionPaymentMethod paymentMethod) {
+    protected PayableStatus determinePayableStatus(TransactionPaymentMethod paymentMethod) {
         return paymentMethod == TransactionPaymentMethod.debit_card
                 ? PayableStatus.paid : PayableStatus.waiting_funds;
     }
 
-    public Instant determinePaymentDate(Instant transactionDate, TransactionPaymentMethod paymentMethod) {
+    protected Instant determinePaymentDate(Instant transactionDate, TransactionPaymentMethod paymentMethod) {
         return paymentMethod == TransactionPaymentMethod.debit_card ?
                 transactionDate : transactionDate.plus(30, ChronoUnit.DAYS);
     }
