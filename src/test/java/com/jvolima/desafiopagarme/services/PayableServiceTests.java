@@ -69,4 +69,13 @@ public class PayableServiceTests {
 
         Assertions.assertEquals(PayableStatus.paid, payableStatus);
     }
+
+    @Test
+    public void determinePayableStatusShouldReturnWaitingFundsWhenPaymentMethodIsCreditCard() {
+        TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.credit_card;
+
+        PayableStatus payableStatus = payableService.determinePayableStatus(paymentMethod);
+
+        Assertions.assertEquals(PayableStatus.waiting_funds, payableStatus);
+    }
 }
