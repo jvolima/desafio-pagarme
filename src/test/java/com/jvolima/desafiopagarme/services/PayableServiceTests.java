@@ -1,6 +1,7 @@
 package com.jvolima.desafiopagarme.services;
 
 import com.jvolima.desafiopagarme.entities.Payable;
+import com.jvolima.desafiopagarme.entities.enums.PayableStatus;
 import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import com.jvolima.desafiopagarme.repositories.PayableRepository;
 import com.jvolima.desafiopagarme.utils.Factory;
@@ -58,5 +59,14 @@ public class PayableServiceTests {
         double discountedValue = payableService.calculateDiscountedValue(value, paymentMethod);
 
         Assertions.assertEquals(950.0, discountedValue);
+    }
+
+    @Test
+    public void determinePayableStatusShouldReturnPaidWhenPaymentMethodIsDebitCard() {
+        TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.debit_card;
+
+        PayableStatus payableStatus = payableService.determinePayableStatus(paymentMethod);
+
+        Assertions.assertEquals(PayableStatus.paid, payableStatus);
     }
 }
