@@ -49,4 +49,14 @@ public class PayableServiceTests {
 
         Assertions.assertEquals(970.0, discountedValue);
     }
+
+    @Test
+    public void calculateDiscountedValueShouldReturnValueWith5PercentFeeWhenPaymentMethodIsCreditCard() {
+        TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.credit_card;
+        double value = 1000.0;
+
+        double discountedValue = payableService.calculateDiscountedValue(value, paymentMethod);
+
+        Assertions.assertEquals(950.0, discountedValue);
+    }
 }
