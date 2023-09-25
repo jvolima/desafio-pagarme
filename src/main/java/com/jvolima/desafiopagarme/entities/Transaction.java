@@ -37,7 +37,7 @@ public class Transaction {
     @Column(nullable = false)
     private Integer cvv;
 
-    @CreationTimestamp
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false, updatable = false)
     private Instant createdAt;
 
     @OneToOne(mappedBy = "transaction")
@@ -136,6 +136,11 @@ public class Transaction {
 
     public void setPayable(Payable payable) {
         this.payable = payable;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
     }
 
     @Override

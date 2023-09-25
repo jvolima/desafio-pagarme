@@ -29,7 +29,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public void processTransaction(TransactionDTO transactionDTO) {
+    public TransactionDTO processTransaction(TransactionDTO transactionDTO) {
 
         if (Instant.now().isAfter(transactionDTO.getCardExpirationDate())) {
             throw new UnprocessableEntityException("Invalid card expiration date.");
@@ -46,6 +46,8 @@ public class TransactionService {
 
         transaction = transactionRepository.save(transaction);
         payableService.processPayable(transaction);
+
+        return new TransactionDTO(transaction);
     }
 
     protected Integer getTheLast4DigitsOfTheCardNumber(String cardNumber) {
