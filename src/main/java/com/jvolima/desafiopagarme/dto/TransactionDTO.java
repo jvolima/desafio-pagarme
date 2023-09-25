@@ -3,6 +3,7 @@ package com.jvolima.desafiopagarme.dto;
 import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -11,7 +12,8 @@ public class TransactionDTO {
 
     private UUID id;
 
-    @DecimalMin(value = "0", inclusive = false, message = "Valor deve ser acima de zero")
+    @NotNull(message = "Value is required.")
+    @DecimalMin(value = "0", inclusive = false, message = "Value should be greater than or equal to zero.")
     private Double value;
     private String description;
     private TransactionPaymentMethod paymentMethod;
