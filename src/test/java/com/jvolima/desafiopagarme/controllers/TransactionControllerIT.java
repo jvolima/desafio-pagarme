@@ -1,5 +1,7 @@
 package com.jvolima.desafiopagarme.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jvolima.desafiopagarme.utils.Factory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +23,9 @@ public class TransactionControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     public void listTransactionsShouldReturnATransactionsDTOPage() throws Exception {
         ResultActions result =
@@ -29,5 +34,18 @@ public class TransactionControllerIT {
 
         result.andExpect(MockMvcResultMatchers.status().isOk());
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray());
+    }
+
+    @Test
+    public void processTransactionShouldReturnCreatedWhenDataIsValid() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(Factory.createTransactionDTO());
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isCreated());
     }
 }

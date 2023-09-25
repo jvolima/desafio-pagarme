@@ -61,9 +61,11 @@ public class TransactionServiceTests {
 
 
     @Test
-    public void processTransactionShouldReturnNothingWhenDataIsValid() {
-        Assertions.assertDoesNotThrow(() -> transactionService.processTransaction(Factory.createTransactionDTO()));
+    public void processTransactionShouldReturnTransactionDTOWhenDataIsValid() {
+        TransactionDTO transactionDTO = transactionService.processTransaction(Factory.createTransactionDTO());
 
+        Assertions.assertNotNull(transactionDTO.getId());
+        Assertions.assertNotNull(transactionDTO.getCreatedAt());
         Mockito.verify(payableService).processPayable(transaction);
 
         transaction.setId(null);
