@@ -50,7 +50,7 @@ public class TransactionServiceTests {
     }
 
     @Test
-    public void listTransactionsShouldReturnATransactionsPage() {
+    public void listTransactionsShouldReturnATransactionsDTOPage() {
         Pageable pageable = PageRequest.of(0, 10);
 
         Page<TransactionDTO> transactionsDTOPage = transactionService.listTransactions(pageable);
