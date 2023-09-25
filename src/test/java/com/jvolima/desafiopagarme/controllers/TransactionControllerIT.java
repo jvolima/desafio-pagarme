@@ -1,6 +1,7 @@
 package com.jvolima.desafiopagarme.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jvolima.desafiopagarme.dto.TransactionDTO;
 import com.jvolima.desafiopagarme.utils.Factory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,31 @@ public class TransactionControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+
+    @Test
+    public void processTransactionShouldReturnUnprocessableEntityWhenValueIsLessThanOrEqualToZero() throws Exception {
+        TransactionDTO transactionDTO = Factory.createTransactionDTO();
+        transactionDTO.setValue(-100.0);
+        String jsonBody = objectMapper.writeValueAsString(transactionDTO);
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+
+        transactionDTO.setValue(0.0);
+        jsonBody = objectMapper.writeValueAsString(transactionDTO);
+
+        result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
     }
 }
