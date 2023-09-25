@@ -2,6 +2,7 @@ package com.jvolima.desafiopagarme.controllers;
 
 import com.jvolima.desafiopagarme.dto.TransactionDTO;
 import com.jvolima.desafiopagarme.services.TransactionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> processTransaction(@RequestBody TransactionDTO transactionDTO) {
+    public ResponseEntity<Void> processTransaction(@Valid @RequestBody TransactionDTO transactionDTO) {
         transactionDTO = transactionService.processTransaction(transactionDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(transactionDTO.getId()).toUri();
