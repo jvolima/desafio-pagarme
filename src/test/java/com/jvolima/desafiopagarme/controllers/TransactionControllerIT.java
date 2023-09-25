@@ -51,6 +51,21 @@ public class TransactionControllerIT {
     }
 
     @Test
+    public void processTransactionShouldReturnUnprocessableEntityWhenValueIsNull() throws Exception {
+        TransactionDTO transactionDTO = Factory.createTransactionDTO();
+        transactionDTO.setValue(null);
+        String jsonBody = objectMapper.writeValueAsString(transactionDTO);
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
     public void processTransactionShouldReturnUnprocessableEntityWhenValueIsLessThanOrEqualToZero() throws Exception {
         TransactionDTO transactionDTO = Factory.createTransactionDTO();
         transactionDTO.setValue(-100.0);
