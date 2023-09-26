@@ -20,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -76,7 +78,12 @@ public class TransactionServiceTests {
     public void processTransactionShouldThrowUnprocessableEntityExceptionWhenCardExpirationDateIsInvalid() {
         Assertions.assertThrows(UnprocessableEntityException.class, () -> {
             TransactionDTO transactionDTO = Factory.createTransactionDTO();
-            transactionDTO.setCardExpirationDate(Instant.now().minus(365, ChronoUnit.DAYS));
+            Instant instant = Instant.now().minus(365, ChronoUnit.DAYS);
+            ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of("UTC"));
+            String month = String.format("%02d", zonedDateTime.getMonthValue());
+            int year = zonedDateTime.getYear();
+            String cardExpirationDate = month + "/" + year;
+            transactionDTO.setCardExpirationDate(cardExpirationDate);
 
             transactionService.processTransaction(transactionDTO);
         });

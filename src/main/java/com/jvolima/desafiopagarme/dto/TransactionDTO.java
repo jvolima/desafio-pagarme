@@ -1,10 +1,11 @@
 package com.jvolima.desafiopagarme.dto;
 
 import com.jvolima.desafiopagarme.entities.Transaction;
-import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import jakarta.validation.constraints.*;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class TransactionDTO {
@@ -30,14 +31,14 @@ public class TransactionDTO {
     @NotBlank(message = "Cardholder name is required.")
     @Size(max = 255, message = "Cardholder name should have no more than 255 characters.")
     private String cardholderName;
-    private Instant cardExpirationDate;
+    private String cardExpirationDate;
     private Integer cvv;
     private Instant createdAt;
 
     public TransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, Double value, String description, String paymentMethod, String cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv, Instant createdAt) {
+    public TransactionDTO(UUID id, Double value, String description, String paymentMethod, String cardNumber, String cardholderName, String cardExpirationDate, Integer cvv, Instant createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -56,7 +57,10 @@ public class TransactionDTO {
         paymentMethod = entity.getPaymentMethod().name();
         cardNumber = String.valueOf(entity.getCardNumber());
         cardholderName = entity.getCardholderName();
-        cardExpirationDate = entity.getCardExpirationDate();
+        ZonedDateTime zonedDateTime = entity.getCardExpirationDate().atZone(ZoneId.of("UTC"));
+        String month = String.format("%02d", zonedDateTime.getMonthValue());
+        int year = zonedDateTime.getYear();
+        cardExpirationDate = month + "/" + year;
         cvv = entity.getCvv();
         createdAt = entity.getCreatedAt();
     }
@@ -109,11 +113,11 @@ public class TransactionDTO {
         this.cardholderName = cardholderName;
     }
 
-    public Instant getCardExpirationDate() {
+    public String getCardExpirationDate() {
         return cardExpirationDate;
     }
 
-    public void setCardExpirationDate(Instant cardExpirationDate) {
+    public void setCardExpirationDate(String cardExpirationDate) {
         this.cardExpirationDate = cardExpirationDate;
     }
 

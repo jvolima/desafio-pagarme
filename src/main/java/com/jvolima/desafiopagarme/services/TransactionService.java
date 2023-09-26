@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class TransactionService {
@@ -32,7 +35,11 @@ public class TransactionService {
     @Transactional
     public TransactionDTO processTransaction(TransactionDTO transactionDTO) {
 
-        if (Instant.now().isAfter(transactionDTO.getCardExpirationDate())) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
+        YearMonth yearMonth = YearMonth.parse(transactionDTO.getCardExpirationDate(), formatter);
+        Instant cardExpirationDate = yearMonth.atDay(1).atStartOfDay(ZoneOffset.UTC).toInstant();
+
+        if (Instant.now().isAfter(cardExpirationDate)) {
             throw new UnprocessableEntityException("Invalid card expiration date.");
         }
 
@@ -42,7 +49,7 @@ public class TransactionService {
         transaction.setPaymentMethod(TransactionPaymentMethod.valueOf(transactionDTO.getPaymentMethod()));
         transaction.setCardNumber(getTheLast4DigitsOfTheCardNumber(transactionDTO.getCardNumber()));
         transaction.setCardholderName(transactionDTO.getCardholderName());
-        transaction.setCardExpirationDate(transactionDTO.getCardExpirationDate());
+        transaction.setCardExpirationDate(cardExpirationDate);
         transaction.setCvv(transactionDTO.getCvv());
 
         transaction = transactionRepository.save(transaction);
