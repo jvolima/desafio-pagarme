@@ -19,9 +19,11 @@ public class TransactionDTO {
     @Size(max = 255, message = "Description should have no more than 255 characters.")
     private String description;
 
-    @NotNull(message = "Payment method is required.")
+    @NotBlank(message = "Payment method is required.")
     @Pattern(regexp = "^(debit_card|credit_card)?$", message = "Payment method should be debit_card or credit_card")
     private String paymentMethod;
+
+    @NotBlank(message = "Card number is required.")
     private String cardNumber;
     private String cardholderName;
     private Instant cardExpirationDate;
