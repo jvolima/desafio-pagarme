@@ -26,6 +26,8 @@ public class TransactionDTO {
     @NotBlank(message = "Card number is required.")
     @Pattern(regexp = "\\d{4} \\d{4} \\d{4} \\d{4}", message = "Card number is out of desired format, expected format: 0000 0000 0000 0000")
     private String cardNumber;
+
+    @NotBlank(message = "Cardholder name is required.")
     private String cardholderName;
     private Instant cardExpirationDate;
     private Integer cvv;
