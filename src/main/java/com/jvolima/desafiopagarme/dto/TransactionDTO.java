@@ -3,6 +3,7 @@ package com.jvolima.desafiopagarme.dto;
 import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
@@ -15,6 +16,8 @@ public class TransactionDTO {
     @NotNull(message = "Value is required.")
     @DecimalMin(value = "0", inclusive = false, message = "Value should be greater than or equal to zero.")
     private Double value;
+
+    @NotBlank(message = "Description is required.")
     private String description;
     private TransactionPaymentMethod paymentMethod;
     private String cardNumber;
