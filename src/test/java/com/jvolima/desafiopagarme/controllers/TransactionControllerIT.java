@@ -105,4 +105,19 @@ public class TransactionControllerIT {
 
         result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
     }
+
+    @Test
+    public void processTransactionShouldReturnUnprocessableEntityWhenDescriptionHasMoreThan255Characters() throws Exception {
+        TransactionDTO transactionDTO = Factory.createTransactionDTO();
+        transactionDTO.setDescription("Lorem ipsum dolor sit amet. Aut eligendi repellat aut nemo consequatur 33 rerum accusantium est mollitia pariatur a obcaecati sint quo temporibus doloremque. Non quis praesentium et veniam dolor in quos minus sit dolores obcaecati non nihil quae. Et omnis molestiae in modi delectus ab asperiores dignissimos.");
+        String jsonBody = objectMapper.writeValueAsString(transactionDTO);
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
 }
