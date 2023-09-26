@@ -2,6 +2,7 @@ package com.jvolima.desafiopagarme.services;
 
 import com.jvolima.desafiopagarme.dto.TransactionDTO;
 import com.jvolima.desafiopagarme.entities.Transaction;
+import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import com.jvolima.desafiopagarme.repositories.TransactionRepository;
 import com.jvolima.desafiopagarme.services.exceptions.UnprocessableEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class TransactionService {
         Transaction transaction = new Transaction();
         transaction.setValue(transactionDTO.getValue());
         transaction.setDescription(transactionDTO.getDescription());
-        transaction.setPaymentMethod(transactionDTO.getPaymentMethod());
+        transaction.setPaymentMethod(TransactionPaymentMethod.valueOf(transactionDTO.getPaymentMethod()));
         transaction.setCardNumber(getTheLast4DigitsOfTheCardNumber(transactionDTO.getCardNumber()));
         transaction.setCardholderName(transactionDTO.getCardholderName());
         transaction.setCardExpirationDate(transactionDTO.getCardExpirationDate());

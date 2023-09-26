@@ -20,7 +20,8 @@ public class TransactionDTO {
     private String description;
 
     @NotNull(message = "Payment method is required.")
-    private TransactionPaymentMethod paymentMethod;
+    @Pattern(regexp = "^(debit_card|credit_card)?$", message = "Payment method should be debit_card or credit_card")
+    private String paymentMethod;
     private String cardNumber;
     private String cardholderName;
     private Instant cardExpirationDate;
@@ -30,7 +31,7 @@ public class TransactionDTO {
     public TransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, String cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv, Instant createdAt) {
+    public TransactionDTO(UUID id, Double value, String description, String paymentMethod, String cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv, Instant createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -46,7 +47,7 @@ public class TransactionDTO {
         id = entity.getId();
         value = entity.getValue();
         description = entity.getDescription();
-        paymentMethod = entity.getPaymentMethod();
+        paymentMethod = entity.getPaymentMethod().name();
         cardNumber = String.valueOf(entity.getCardNumber());
         cardholderName = entity.getCardholderName();
         cardExpirationDate = entity.getCardExpirationDate();
@@ -78,11 +79,11 @@ public class TransactionDTO {
         this.description = description;
     }
 
-    public TransactionPaymentMethod getPaymentMethod() {
+    public String getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(TransactionPaymentMethod paymentMethod) {
+    public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
