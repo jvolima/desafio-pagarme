@@ -33,17 +33,18 @@ public class TransactionDTO {
     private String cardholderName;
 
     @NotBlank(message = "Card expiration date is required.")
-    @Pattern(regexp = "^(0[1-9]|1[0-2])/\\d{4}$", message = "Card expiration date is out of desired format, expected format: 05/2023")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])/\\d{4}$", message = "Card expiration date is out of desired format, expected format: MM/YYYY")
     private String cardExpirationDate;
 
     @NotNull(message = "CVV is required.")
-    private Integer cvv;
+    @Pattern(regexp = "\\d{3}", message = "CVV is out of desired format, expected format: 000")
+    private String cvv;
     private Instant createdAt;
 
     public TransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, Double value, String description, String paymentMethod, String cardNumber, String cardholderName, String cardExpirationDate, Integer cvv, Instant createdAt) {
+    public TransactionDTO(UUID id, Double value, String description, String paymentMethod, String cardNumber, String cardholderName, String cardExpirationDate, String cvv, Instant createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -66,7 +67,7 @@ public class TransactionDTO {
         String month = String.format("%02d", zonedDateTime.getMonthValue());
         int year = zonedDateTime.getYear();
         cardExpirationDate = month + "/" + year;
-        cvv = entity.getCvv();
+        cvv = entity.getCvv().toString();
         createdAt = entity.getCreatedAt();
     }
 
@@ -126,11 +127,11 @@ public class TransactionDTO {
         this.cardExpirationDate = cardExpirationDate;
     }
 
-    public Integer getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(Integer cvv) {
+    public void setCvv(String cvv) {
         this.cvv = cvv;
     }
 

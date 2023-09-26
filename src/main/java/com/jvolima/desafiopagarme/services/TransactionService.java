@@ -50,7 +50,7 @@ public class TransactionService {
         transaction.setCardNumber(getTheLast4DigitsOfTheCardNumber(transactionDTO.getCardNumber()));
         transaction.setCardholderName(transactionDTO.getCardholderName());
         transaction.setCardExpirationDate(cardExpirationDate);
-        transaction.setCvv(transactionDTO.getCvv());
+        transaction.setCvv(Integer.valueOf(transactionDTO.getCvv()));
 
         transaction = transactionRepository.save(transaction);
         payableService.processPayable(transaction);
