@@ -2,10 +2,7 @@ package com.jvolima.desafiopagarme.dto;
 
 import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -21,6 +18,8 @@ public class TransactionDTO {
     @NotBlank(message = "Description is required.")
     @Size(max = 255, message = "Description should have no more than 255 characters.")
     private String description;
+
+    @NotNull(message = "Payment method is required.")
     private TransactionPaymentMethod paymentMethod;
     private String cardNumber;
     private String cardholderName;
