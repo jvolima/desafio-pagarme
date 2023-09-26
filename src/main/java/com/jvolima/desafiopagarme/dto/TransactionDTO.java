@@ -35,6 +35,8 @@ public class TransactionDTO {
     @NotBlank(message = "Card expiration date is required.")
     @Pattern(regexp = "^(0[1-9]|1[0-2])/\\d{4}$", message = "Card expiration date is out of desired format, expected format: 05/2023")
     private String cardExpirationDate;
+
+    @NotNull(message = "CVV is required.")
     private Integer cvv;
     private Instant createdAt;
 
