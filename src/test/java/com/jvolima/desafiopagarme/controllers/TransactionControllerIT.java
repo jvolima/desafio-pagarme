@@ -180,4 +180,19 @@ public class TransactionControllerIT {
 
         result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
     }
+
+    @Test
+    public void processTransactionShouldReturnUnprocessableEntityWhenCardholderNameIsBlank() throws Exception {
+        TransactionDTO transactionDTO = Factory.createTransactionDTO();
+        transactionDTO.setCardholderName(null);
+        String jsonBody = objectMapper.writeValueAsString(transactionDTO);
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
 }
