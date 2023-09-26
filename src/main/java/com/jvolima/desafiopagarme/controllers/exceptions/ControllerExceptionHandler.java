@@ -1,5 +1,6 @@
 package com.jvolima.desafiopagarme.controllers.exceptions;
 
+import com.jvolima.desafiopagarme.services.exceptions.UnprocessableEntityException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,19 @@ public class ControllerExceptionHandler {
         for (FieldError f: e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public ResponseEntity<StandardError> unprocessableEntity(UnprocessableEntityException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Unprocessable entity exception");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
     }
