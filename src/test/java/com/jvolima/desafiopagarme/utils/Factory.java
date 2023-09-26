@@ -31,7 +31,7 @@ public class Factory {
         TransactionDTO transactionDTO = new TransactionDTO(createTransaction());
         transactionDTO.setId(null);
         transactionDTO.setCreatedAt(null);
-        transactionDTO.setCardNumber("1234123412341234");
+        transactionDTO.setCardNumber("1234 1234 1234 1234");
 
         return transactionDTO;
     }
