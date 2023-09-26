@@ -92,7 +92,7 @@ public class TransactionControllerIT {
     }
 
     @Test
-    public void processTransactionShouldReturnUnprocessableEntityWhenDescriptionIsNull() throws Exception {
+    public void processTransactionShouldReturnUnprocessableEntityWhenDescriptionIsBlank() throws Exception {
         TransactionDTO transactionDTO = Factory.createTransactionDTO();
         transactionDTO.setDescription(null);
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
@@ -122,7 +122,7 @@ public class TransactionControllerIT {
     }
 
     @Test
-    public void processTransactionShouldReturnUnprocessableEntityWhenPaymentMethodIsNull() throws Exception {
+    public void processTransactionShouldReturnUnprocessableEntityWhenPaymentMethodIsBlank() throws Exception {
         TransactionDTO transactionDTO = Factory.createTransactionDTO();
         transactionDTO.setPaymentMethod(null);
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
@@ -140,6 +140,21 @@ public class TransactionControllerIT {
     public void processTransactionShouldReturnUnprocessableEntityWhenPaymentMethodIsNeitherDebitCardNorCreditCard() throws Exception {
         TransactionDTO transactionDTO = Factory.createTransactionDTO();
         transactionDTO.setPaymentMethod("non_valid_card");
+        String jsonBody = objectMapper.writeValueAsString(transactionDTO);
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void processTransactionShouldReturnUnprocessableEntityWhenCardNumberIsBlank() throws Exception {
+        TransactionDTO transactionDTO = Factory.createTransactionDTO();
+        transactionDTO.setCardNumber(null);
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
