@@ -31,6 +31,8 @@ public class TransactionDTO {
     @NotBlank(message = "Cardholder name is required.")
     @Size(max = 255, message = "Cardholder name should have no more than 255 characters.")
     private String cardholderName;
+
+    @NotBlank(message = "Card expiration date is required.")
     private String cardExpirationDate;
     private Integer cvv;
     private Instant createdAt;
