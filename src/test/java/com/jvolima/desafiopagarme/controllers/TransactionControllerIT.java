@@ -240,4 +240,19 @@ public class TransactionControllerIT {
 
         result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
     }
+
+    @Test
+    public void processTransactionShouldReturnUnprocessableEntityWhenCardExpirationDateIsInvalid() throws Exception {
+        TransactionDTO transactionDTO = Factory.createTransactionDTO();
+        transactionDTO.setCardExpirationDate("08/2020");
+        String jsonBody = objectMapper.writeValueAsString(transactionDTO);
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
 }
