@@ -36,7 +36,7 @@ public class Transaction {
     private Date cardExpirationDate;
 
     @Column(nullable = false)
-    private Integer cvv;
+    private String cvv;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false, updatable = false)
     private Date createdAt;
@@ -47,7 +47,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, String cardNumber, String cardholderName, Date cardExpirationDate, Integer cvv, Date createdAt) {
+    public Transaction(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, String cardNumber, String cardholderName, Date cardExpirationDate, String cvv, Date createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -115,11 +115,11 @@ public class Transaction {
         this.cardExpirationDate = cardExpirationDate;
     }
 
-    public Integer getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(Integer cvv) {
+    public void setCvv(String cvv) {
         this.cvv = cvv;
     }
 

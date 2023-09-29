@@ -24,7 +24,6 @@ public class PayableService {
     @Transactional(readOnly = true)
     public BalanceDTO getBalance() {
         BalanceDTO balanceDTO = new BalanceDTO();
-
         List<Payable> paidPayableList = payableRepository.findByStatus(PayableStatus.paid);
         balanceDTO.setAvailable(
                 paidPayableList.stream().mapToDouble(Payable::getDiscountedValue).sum()

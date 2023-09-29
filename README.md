@@ -40,7 +40,7 @@ Você deve criar um serviço com os seguintes requisitos:
 - [x] No momento de criação dos payables também deve ser descontado a taxa de processamento (que chamamos de `fee`) do cliente. Ex: se a taxa for 5% e o cliente processar uma transação de R$100,00, ele só receberá R$95,00. Considere as seguintes taxas:
     * 3% para transações feitas com um cartão de débito
     * 5% para transações feitas com um cartão de crédito
-- [] O serviço deve prover um meio de consulta para que o cliente visualize seu saldo com as seguintes informações:
+- [x] O serviço deve prover um meio de consulta para que o cliente visualize seu saldo com as seguintes informações:
     * Saldo `available` (disponível): tudo que o cliente já recebeu (payables `paid`)
     * Saldo `waiting_funds` (a receber): tudo que o cliente tem a receber (payables `waiting_funds`)
 
