@@ -115,7 +115,7 @@ public class PayableServiceTests {
         Transaction transaction = Factory.createTransaction();
         TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.debit_card;
 
-        Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt(), paymentMethod);
+        Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt().toInstant(), paymentMethod);
 
         Assertions.assertEquals(transaction.getCreatedAt(), paymentDate);
     }
@@ -125,8 +125,8 @@ public class PayableServiceTests {
         Transaction transaction = Factory.createTransaction();
         TransactionPaymentMethod paymentMethod = TransactionPaymentMethod.credit_card;
 
-        Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt(), paymentMethod);
+        Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt().toInstant(), paymentMethod);
 
-        Assertions.assertEquals(transaction.getCreatedAt().plus(30, ChronoUnit.DAYS), paymentDate);
+        Assertions.assertEquals(transaction.getCreatedAt().toInstant().plus(30, ChronoUnit.DAYS), paymentDate);
     }
 }

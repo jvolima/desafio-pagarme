@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,7 +43,7 @@ public class PayableService {
         TransactionPaymentMethod paymentMethod = transaction.getPaymentMethod();
         payable.setDiscountedValue(calculateDiscountedValue(transaction.getValue(), paymentMethod));
         payable.setStatus(determinePayableStatus(paymentMethod));
-        payable.setPaymentDate(determinePaymentDate(transaction.getCreatedAt(), paymentMethod));
+        payable.setPaymentDate(Date.from(determinePaymentDate(transaction.getCreatedAt().toInstant(), paymentMethod)));
         payable.setTransaction(transaction);
 
         payableRepository.save(payable);

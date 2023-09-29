@@ -8,6 +8,7 @@ import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.UUID;
 
 public class Factory {
@@ -18,11 +19,11 @@ public class Factory {
         transaction.setValue(100.0);
         transaction.setDescription("Compra para testes");
         transaction.setPaymentMethod(TransactionPaymentMethod.debit_card);
-        transaction.setCardNumber(1234);
+        transaction.setCardNumber("1234");
         transaction.setCardholderName("Comprador teste");
-        transaction.setCardExpirationDate(Instant.now().plus(365 * 3, ChronoUnit.DAYS));
+        transaction.setCardExpirationDate(Date.from(Instant.now().plus(365 * 3, ChronoUnit.DAYS)));
         transaction.setCvv(321);
-        transaction.setCreatedAt(Instant.now());
+        transaction.setCreatedAt(Date.from(Instant.now()));
 
         return transaction;
     }
@@ -41,7 +42,7 @@ public class Factory {
         payable.setId(UUID.randomUUID());
         payable.setDiscountedValue(97.0);
         payable.setStatus(PayableStatus.paid);
-        payable.setPaymentDate(Instant.now());
+        payable.setPaymentDate(Date.from(Instant.now()));
         payable.setTransaction(createTransaction());
 
         return payable;

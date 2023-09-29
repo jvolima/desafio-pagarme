@@ -4,6 +4,7 @@ import com.jvolima.desafiopagarme.entities.enums.PayableStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class Payable {
     private PayableStatus status;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
-    private Instant paymentDate;
+    private Date paymentDate;
 
     @Column(nullable = false)
     private Double discountedValue;
@@ -31,7 +32,7 @@ public class Payable {
     public Payable() {
     }
 
-    public Payable(UUID id, PayableStatus status, Instant paymentDate, Double discountedValue, Transaction transaction) {
+    public Payable(UUID id, PayableStatus status, Date paymentDate, Double discountedValue, Transaction transaction) {
         this.id = id;
         this.status = status;
         this.paymentDate = paymentDate;
@@ -55,11 +56,11 @@ public class Payable {
         this.status = status;
     }
 
-    public Instant getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Instant paymentDate) {
+    public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
 

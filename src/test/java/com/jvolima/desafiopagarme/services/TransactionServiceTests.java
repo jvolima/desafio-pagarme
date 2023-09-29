@@ -64,10 +64,12 @@ public class TransactionServiceTests {
 
     @Test
     public void processTransactionShouldReturnTransactionDTOWhenDataIsValid() {
-        TransactionDTO transactionDTO = transactionService.processTransaction(Factory.createTransactionDTO());
+        TransactionDTO transactionDTO = Factory.createTransactionDTO();
+        TransactionDTO createdDTO = transactionService.processTransaction(transactionDTO);
 
-        Assertions.assertNotNull(transactionDTO.getId());
-        Assertions.assertNotNull(transactionDTO.getCreatedAt());
+        Assertions.assertNotNull(createdDTO.getId());
+        Assertions.assertNotNull(createdDTO.getCreatedAt());
+        Assertions.assertEquals(transactionDTO.getCardExpirationDate(), createdDTO.getCardExpirationDate());
         Mockito.verify(payableService).processPayable(transaction);
 
         transaction.setId(null);
@@ -95,8 +97,8 @@ public class TransactionServiceTests {
     @Test
     public void getTheLast4DigitsOfTheCardNumberShouldReturnTheLast4Digits() {
         String cardNumber = "8421098574156972";
-        Integer last4Digits = transactionService.getTheLast4DigitsOfTheCardNumber(cardNumber);
+        String last4Digits = transactionService.getTheLast4DigitsOfTheCardNumber(cardNumber);
 
-        Assertions.assertEquals(6972, last4Digits);
+        Assertions.assertEquals("6972", last4Digits);
     }
 }

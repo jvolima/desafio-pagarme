@@ -5,7 +5,10 @@ import jakarta.validation.constraints.*;
 
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
+import java.util.Date;
 import java.util.UUID;
 
 public class TransactionDTO {
@@ -39,12 +42,12 @@ public class TransactionDTO {
     @NotNull(message = "CVV is required.")
     @Pattern(regexp = "\\d{3}", message = "CVV is out of desired format, expected format: 000")
     private String cvv;
-    private Instant createdAt;
+    private Date createdAt;
 
     public TransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, Double value, String description, String paymentMethod, String cardNumber, String cardholderName, String cardExpirationDate, String cvv, Instant createdAt) {
+    public TransactionDTO(UUID id, Double value, String description, String paymentMethod, String cardNumber, String cardholderName, String cardExpirationDate, String cvv, Date createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -63,9 +66,8 @@ public class TransactionDTO {
         paymentMethod = entity.getPaymentMethod().name();
         cardNumber = String.valueOf(entity.getCardNumber());
         cardholderName = entity.getCardholderName();
-        ZonedDateTime zonedDateTime = entity.getCardExpirationDate().atZone(ZoneId.of("UTC"));
-        String month = String.format("%02d", zonedDateTime.getMonthValue());
-        int year = zonedDateTime.getYear();
+        String month = String.format("%02d", entity.getCardExpirationDate().getMonth() + 1);
+        int year = entity.getCardExpirationDate().getYear() + 1900;
         cardExpirationDate = month + "/" + year;
         cvv = entity.getCvv().toString();
         createdAt = entity.getCreatedAt();
@@ -135,11 +137,11 @@ public class TransactionDTO {
         this.cvv = cvv;
     }
 
-    public Instant getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 }

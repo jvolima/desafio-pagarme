@@ -11,10 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Service
 public class TransactionService {
@@ -33,13 +37,17 @@ public class TransactionService {
     }
 
     @Transactional
-    public TransactionDTO processTransaction(TransactionDTO transactionDTO) {
+    public TransactionDTO processTransaction(TransactionDTO transactionDTO) {;
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+        Date cardExpirationDate = null;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
-        YearMonth yearMonth = YearMonth.parse(transactionDTO.getCardExpirationDate(), formatter);
-        Instant cardExpirationDate = yearMonth.atDay(1).atStartOfDay(ZoneOffset.UTC).toInstant();
+        try {
+            cardExpirationDate = formatter.parse(transactionDTO.getCardExpirationDate());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
-        if (Instant.now().isAfter(cardExpirationDate)) {
+        if (Date.from(Instant.now()).after(cardExpirationDate)) {
             throw new UnprocessableEntityException("Invalid card expiration date.");
         }
 
@@ -58,7 +66,7 @@ public class TransactionService {
         return new TransactionDTO(transaction);
     }
 
-    protected Integer getTheLast4DigitsOfTheCardNumber(String cardNumber) {
-        return Integer.valueOf(cardNumber.substring(cardNumber.length() - 4));
+    protected String getTheLast4DigitsOfTheCardNumber(String cardNumber) {
+        return cardNumber.substring(cardNumber.length() - 4);
     }
 }

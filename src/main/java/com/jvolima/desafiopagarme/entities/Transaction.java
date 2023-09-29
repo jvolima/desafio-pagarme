@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,19 +27,19 @@ public class Transaction {
     private TransactionPaymentMethod paymentMethod;
 
     @Column(nullable = false)
-    private Integer cardNumber;
+    private String cardNumber;
 
     @Column(nullable = false)
     private String cardholderName;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
-    private Instant cardExpirationDate;
+    private Date cardExpirationDate;
 
     @Column(nullable = false)
     private Integer cvv;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false, updatable = false)
-    private Instant createdAt;
+    private Date createdAt;
 
     @OneToOne(mappedBy = "transaction")
     private Payable payable;
@@ -46,7 +47,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, Integer cardNumber, String cardholderName, Instant cardExpirationDate, Integer cvv, Instant createdAt) {
+    public Transaction(UUID id, Double value, String description, TransactionPaymentMethod paymentMethod, String cardNumber, String cardholderName, Date cardExpirationDate, Integer cvv, Date createdAt) {
         this.id = id;
         this.value = value;
         this.description = description;
@@ -90,11 +91,11 @@ public class Transaction {
         this.paymentMethod = paymentMethod;
     }
 
-    public Integer getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(Integer cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
@@ -106,11 +107,11 @@ public class Transaction {
         this.cardholderName = cardholderName;
     }
 
-    public Instant getCardExpirationDate() {
+    public Date getCardExpirationDate() {
         return cardExpirationDate;
     }
 
-    public void setCardExpirationDate(Instant cardExpirationDate) {
+    public void setCardExpirationDate(Date cardExpirationDate) {
         this.cardExpirationDate = cardExpirationDate;
     }
 
@@ -122,11 +123,11 @@ public class Transaction {
         this.cvv = cvv;
     }
 
-    public Instant getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -140,7 +141,7 @@ public class Transaction {
 
     @PrePersist
     public void prePersist() {
-        createdAt = Instant.now();
+        createdAt = Date.from(Instant.now());
     }
 
     @Override
