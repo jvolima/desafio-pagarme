@@ -117,7 +117,7 @@ public class PayableServiceTests {
 
         Instant paymentDate = payableService.determinePaymentDate(transaction.getCreatedAt().toInstant(), paymentMethod);
 
-        Assertions.assertEquals(transaction.getCreatedAt(), paymentDate);
+        Assertions.assertEquals(transaction.getCreatedAt().toInstant(), paymentDate);
     }
 
     @Test

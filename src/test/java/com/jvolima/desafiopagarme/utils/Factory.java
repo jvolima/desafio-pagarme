@@ -22,7 +22,7 @@ public class Factory {
         transaction.setCardNumber("1234");
         transaction.setCardholderName("Comprador teste");
         transaction.setCardExpirationDate(Date.from(Instant.now().plus(365 * 3, ChronoUnit.DAYS)));
-        transaction.setCvv(321);
+        transaction.setCvv("321");
         transaction.setCreatedAt(Date.from(Instant.now()));
 
         return transaction;

@@ -1,8 +1,10 @@
 package com.jvolima.desafiopagarme.config;
 
+import com.jvolima.desafiopagarme.dto.TransactionDTO;
 import com.jvolima.desafiopagarme.entities.Transaction;
 import com.jvolima.desafiopagarme.entities.enums.TransactionPaymentMethod;
 import com.jvolima.desafiopagarme.repositories.TransactionRepository;
+import com.jvolima.desafiopagarme.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -17,28 +19,38 @@ import java.util.Date;
 public class IntegrationTestsSeed implements CommandLineRunner {
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
     @Override
     public void run(String... args) throws Exception {
-        Transaction transaction1 = new Transaction();
-        transaction1.setValue(250.0);
-        transaction1.setDescription("Gym + fitness products");
-        transaction1.setPaymentMethod(TransactionPaymentMethod.credit_card);
-        transaction1.setCardNumber("8742");
-        transaction1.setCardholderName("John Doe");
-        transaction1.setCardExpirationDate(Date.from(Instant.now().plus(5 * 365, ChronoUnit.DAYS)));
-        transaction1.setCvv(874);
-        transactionRepository.save(transaction1);
+        Date cardExpirationDate;
+        String month;
+        int year;
 
-        Transaction transaction2 = new Transaction();
-        transaction2.setValue(840.0);
-        transaction2.setDescription("Nintendo Switch Lite");
-        transaction2.setPaymentMethod(TransactionPaymentMethod.debit_card);
-        transaction2.setCardNumber("4568");
-        transaction2.setCardholderName("Alice Gray");
-        transaction2.setCardExpirationDate(Date.from(Instant.now().plus(3 * 365, ChronoUnit.DAYS)));
-        transaction2.setCvv(347);
-        transactionRepository.save(transaction2);
+        TransactionDTO transactionDTO1 = new TransactionDTO();
+        transactionDTO1.setValue(250.0);
+        transactionDTO1.setDescription("Gym + fitness products");
+        transactionDTO1.setPaymentMethod("credit_card");
+        transactionDTO1.setCardNumber("9451 1264 7842 8742");
+        transactionDTO1.setCardholderName("John Doe");
+        cardExpirationDate = Date.from(Instant.now().plus(6 * 365, ChronoUnit.DAYS));
+        month = String.format("%02d", cardExpirationDate.getMonth() + 1);
+        year = cardExpirationDate.getYear() + 1900;
+        transactionDTO1.setCardExpirationDate(month + "/" + year);
+        transactionDTO1.setCvv("874");
+        transactionService.processTransaction(transactionDTO1);
+
+        TransactionDTO transactionDTO2 = new TransactionDTO();
+        transactionDTO2.setValue(840.0);
+        transactionDTO2.setDescription("Nintendo Switch Lite");
+        transactionDTO2.setPaymentMethod("debit_card");
+        transactionDTO2.setCardNumber("4791 8751 6547 4568");
+        transactionDTO2.setCardholderName("Alice Gray");
+        cardExpirationDate = Date.from(Instant.now().plus(4 * 400, ChronoUnit.DAYS));
+        month = String.format("%02d", cardExpirationDate.getMonth() + 1);
+        year = cardExpirationDate.getYear() + 1900;
+        transactionDTO2.setCardExpirationDate(month + "/" + year);
+        transactionDTO2.setCvv("347");
+        transactionService.processTransaction(transactionDTO2);
     }
 }
