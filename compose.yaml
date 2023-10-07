@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+  challenge-pagarme-api:
+    image: 'challenge-pagarme-api'
+    build:
+      context: .
+    container_name: challenge-pagarme-api
+    depends_on:
+      - challenge-pagarme-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://challenge-pagarme-db:5432/db
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8080:8080"
+
+  challenge-pagarme-db:
+    image: 'postgres:16.0-alpine3.18'
+    container_name: challenge-pagarme-db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+    ports:
+      - "5420:5432"
+
+  challenge-pagarme-db-tests:
+    image: 'postgres:16.0-alpine3.18'
+    container_name: challenge-pagarme-db-tests
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db-tests
+    ports:
+      - "5430:5432"

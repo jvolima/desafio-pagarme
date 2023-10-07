@@ -45,7 +45,8 @@ Você deve criar um serviço com os seguintes requisitos:
     * Saldo `waiting_funds` (a receber): tudo que o cliente tem a receber (payables `waiting_funds`)
 
 ## Milhas extra
-- [] Docker
+- [x] Path versioning
+- [x] Docker
 - [] Swagger
 - [] Flyway or Liquibase
 - [] Cache

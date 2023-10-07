@@ -24,7 +24,7 @@ public class PayableControllerIT {
     @Test
     public void getBalanceShouldReturnBalanceDTO() throws Exception {
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.get("/payables/balance")
+                mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/payables/balance")
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(MockMvcResultMatchers.status().isOk());

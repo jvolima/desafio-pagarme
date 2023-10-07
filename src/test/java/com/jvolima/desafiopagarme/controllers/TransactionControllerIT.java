@@ -27,10 +27,12 @@ public class TransactionControllerIT {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private static final String url = "/api/v1/transactions";
+
     @Test
     public void listTransactionsShouldReturnATransactionsDTOPage() throws Exception {
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.get("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.get(url)
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(MockMvcResultMatchers.status().isOk());
@@ -42,7 +44,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(Factory.createTransactionDTO());
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -57,7 +59,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -72,7 +74,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -83,7 +85,7 @@ public class TransactionControllerIT {
         jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -98,7 +100,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -113,7 +115,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -128,7 +130,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -143,7 +145,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -158,7 +160,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -173,7 +175,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -188,7 +190,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -203,7 +205,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -218,7 +220,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -233,7 +235,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -248,7 +250,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -263,7 +265,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -278,7 +280,7 @@ public class TransactionControllerIT {
         String jsonBody = objectMapper.writeValueAsString(transactionDTO);
 
         ResultActions result =
-                mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
