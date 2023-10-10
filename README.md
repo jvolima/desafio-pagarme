@@ -48,5 +48,6 @@ Você deve criar um serviço com os seguintes requisitos:
 - [x] Path versioning
 - [x] Docker
 - [] Swagger
-- [] Flyway or Liquibase
+- [x] Flyway or Liquibase
+- [] Autenticação
 - [] Cache
