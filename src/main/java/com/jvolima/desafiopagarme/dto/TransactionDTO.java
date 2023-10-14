@@ -1,13 +1,9 @@
 package com.jvolima.desafiopagarme.dto;
 
 import com.jvolima.desafiopagarme.entities.Transaction;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,33 +11,42 @@ public class TransactionDTO {
 
     private UUID id;
 
+    @Schema(description = "value", type = "double", example = "100.0")
     @NotNull(message = "Value is required.")
     @DecimalMin(value = "0", inclusive = false, message = "Value should be greater than or equal to zero.")
     private Double value;
 
+    @Schema(description = "description", type = "string", example = "example of description")
     @NotBlank(message = "Description is required.")
     @Size(max = 255, message = "Description should have no more than 255 characters.")
     private String description;
 
+    @Schema(description = "paymentMethod", type = "string", example = "credit_card")
     @NotBlank(message = "Payment method is required.")
     @Pattern(regexp = "^(debit_card|credit_card)?$", message = "Payment method should be debit_card or credit_card")
     private String paymentMethod;
 
+    @Schema(description = "cardNumber", type = "string", example = "5485 9552 4845 3189")
     @NotBlank(message = "Card number is required.")
     @Pattern(regexp = "\\d{4} \\d{4} \\d{4} \\d{4}", message = "Card number is out of desired format, expected format: 0000 0000 0000 0000")
     private String cardNumber;
 
+    @Schema(description = "cardholderName", type = "string", example = "John Doe")
     @NotBlank(message = "Cardholder name is required.")
     @Size(max = 255, message = "Cardholder name should have no more than 255 characters.")
     private String cardholderName;
 
+    @Schema(description = "cardExpirationDate", type = "string", example = "10/2028")
     @NotBlank(message = "Card expiration date is required.")
     @Pattern(regexp = "^(0[1-9]|1[0-2])/\\d{4}$", message = "Card expiration date is out of desired format, expected format: MM/YYYY")
     private String cardExpirationDate;
 
+    @Schema(description = "cvv", type = "string", example = "954")
     @NotNull(message = "CVV is required.")
     @Pattern(regexp = "\\d{3}", message = "CVV is out of desired format, expected format: 000")
     private String cvv;
+
+    @Schema(hidden = true)
     private Date createdAt;
 
     public TransactionDTO() {
@@ -69,7 +74,7 @@ public class TransactionDTO {
         String month = String.format("%02d", entity.getCardExpirationDate().getMonth() + 1);
         int year = entity.getCardExpirationDate().getYear() + 1900;
         cardExpirationDate = month + "/" + year;
-        cvv = entity.getCvv().toString();
+        cvv = entity.getCvv();
         createdAt = entity.getCreatedAt();
     }
 

@@ -44,7 +44,7 @@ public class TransactionService {
         try {
             cardExpirationDate = formatter.parse(transactionDTO.getCardExpirationDate());
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new UnprocessableEntityException(e.getMessage());
         }
 
         if (Date.from(Instant.now()).after(cardExpirationDate)) {

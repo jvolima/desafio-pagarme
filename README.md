@@ -47,7 +47,7 @@ Você deve criar um serviço com os seguintes requisitos:
 ## Milhas extra
 - [x] Path versioning
 - [x] Docker
-- [] Swagger
+- [x] Swagger
 - [x] Flyway or Liquibase
 - [] Autenticação
 - [] Cache
