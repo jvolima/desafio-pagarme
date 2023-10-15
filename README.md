@@ -9,6 +9,9 @@ Desafio backend Pagar.me
 - Hibernate
 - PostgreSQL
 - JUnit
+- Docker
+- Flyway
+- Swagger
 - Git e Github
 
 ## Metodologias e Designs
@@ -48,6 +51,6 @@ Você deve criar um serviço com os seguintes requisitos:
 - [x] Path versioning
 - [x] Docker
 - [x] Swagger
-- [x] Flyway or Liquibase
+- [x] Flyway
 - [] Autenticação
 - [] Cache
