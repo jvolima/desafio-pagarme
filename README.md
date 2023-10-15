@@ -52,5 +52,3 @@ Você deve criar um serviço com os seguintes requisitos:
 - [x] Docker
 - [x] Swagger
 - [x] Flyway
-- [] Autenticação
-- [] Cache
